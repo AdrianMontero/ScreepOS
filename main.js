@@ -5,6 +5,8 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 
+var nHarvesters = 3;
+
 module.exports.loop = function () {
     //Defensa
 
@@ -67,18 +69,15 @@ module.exports.loop = function () {
     
     
     //Revivimos a los creeps muertos hasta un minimo.
-    if(harvesters.length < 3) {
-        var newName = Game.spawns['sp1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+    if(harvesters.length < nHarvesters) {
         console.log('Spawning new harvester: ' + newName);
     }
     
-    if(upgrader.length < 3) {
-        var newName = Game.spawns['sp1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+    if(upgrader.length < nUpgraders) {
         console.log('Spawning new upgrader: ' + newName);
     }
     
-    if(builder.length < 2) {
-        var newName = Game.spawns['sp1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
+    if(builder.length < nBuilders) {
         console.log('Spawning new builder: ' + newName);
     }
 
