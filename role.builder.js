@@ -16,7 +16,7 @@ var roleBuilder = {
             var contructioSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
             if(contructioSite != undefined){
                 if(creep.build(contructioSite)==ERR_NOT_IN_RANGE){
-                    creep.moveTo(contructioSite);
+                    creep.moveTo(contructioSite , {visualizePathStyle: {stroke: '#ffaa00'}});
                 }
             }
         }
