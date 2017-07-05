@@ -14,9 +14,16 @@ var roleBuilder = {
 
         if(creep.memory.building) {
             var contructioSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+             var structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL});
             if(contructioSite != undefined){
                 if(creep.build(contructioSite)==ERR_NOT_IN_RANGE){
                     creep.moveTo(contructioSite , {visualizePathStyle: {stroke: '#ffaa00'}});
+                } 
+            }else if (structure != undefined) {
+                // try to repair it, if it is out of range
+                if (creep.repair(structure) == ERR_NOT_IN_RANGE) {
+                    // move towards it
+                    creep.moveTo(structure);
                 }
             }
         }

@@ -5,11 +5,14 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 
-var nHarvesters = 3;
-var nUpgraders = 5;
-var nBuilders = 2;
+
 
 module.exports.loop = function () {
+    var nHarvesterMin = 3;
+    var nHarvesterMax = 4;
+    var nUpgraderMin = 3;
+    var nUpgraderMax = 6;
+    var nBuilderMin = 1; 
     //Defensa
 
     //Torres
@@ -71,20 +74,27 @@ module.exports.loop = function () {
     
     
     //Revivimos a los creeps muertos hasta un minimo.
-    if(harvesters.length < nHarvesters) {
+    if(harvesters.length >= nHarvesterMin) {
+        
+        if(upgrader.length < nUpgraderMin) {
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'upgrader'});
+            console.log('Spawning new upgrader: ' + newName);
+        }
+    
+        if(builder.length < nBuilderMin) {
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'builder'});
+            console.log('Spawning new builder: ' + newName);
+        }
+    }
+    if(harvesters.length < nHarvesterMax){
         var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
         console.log('Spawning new harvester: ' + newName);
     }
-    
-    if(upgrader.length < nUpgraders) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+    if(harvesters.length == nHarvesterMax && builder.length >= nBuilderMin && upgrader.length < nUpgraderMax){
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'upgrader'});
         console.log('Spawning new upgrader: ' + newName);
     }
     
-    if(builder.length < nBuilders) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
-        console.log('Spawning new builder: ' + newName);
-    }
 
     //Activamos los roles
     for(var name in Game.creeps) {
